@@ -1,6 +1,6 @@
 # MyGit
 
-This tool copies the ignored files.
+This tool create git repository and copies the ignored files.
 
 # Usage
 
