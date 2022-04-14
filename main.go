@@ -19,6 +19,7 @@ func main() {
 	}
 	lang := args[0]
 
+	// Create git repository
 	msg, err := exec.Command("git", "init").CombinedOutput()
 	fmt.Println("Create git repository.")
 	fmt.Printf("git message:\n%s", msg)
@@ -28,9 +29,11 @@ func main() {
 		return
 	}
 
-	if copyIgnorefile(lang) {
-		fmt.Println("Repository created.")
+	if !copyIgnorefile(lang) {
+		fmt.Println("Failed to copy ignore file")
+		return
 	}
+	fmt.Println("Repository created.")
 }
 
 func copyIgnorefile(lang string) bool {
