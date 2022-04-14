@@ -41,30 +41,35 @@ func copyIgnorefile(lang string) bool {
 	exeDirPath := filepath.Dir(exePath)
 	filePath := fmt.Sprintf("%s/ignores/%s/.gitignore", exeDirPath, lang)
 
-	_, err := os.Stat(filePath)
+	return copyFile(".gitignore", filePath)
+}
+
+func copyFile(dstFilePath string, srcFilePath string) bool {
+
+	_, err := os.Stat(srcFilePath)
 
 	if os.IsNotExist(err) {
-		fmt.Println(".gitignore does not exist.")
+		fmt.Println("The source file does not exist.")
 		return false
 	}
 
-	srcFile, err := os.Open(filePath)
+	srcFile, err := os.Open(srcFilePath)
 	defer srcFile.Close()
 	if err != nil {
-		fmt.Println(".gitignore could not open.")
+		fmt.Println("The source file could not open.")
 		return false
 	}
 
-	dstFile, err := os.OpenFile(".gitignore", os.O_CREATE| os.O_WRONLY, 0644)
+	dstFile, err := os.OpenFile(dstFilePath, os.O_CREATE|os.O_WRONLY, 0644)
 	defer dstFile.Close()
 	if err != nil {
-		fmt.Println(".gitignore could not create.")
+		fmt.Println("The destination file could not create.")
 		return false
 	}
 
 	_, err = io.Copy(dstFile, srcFile)
 	if err != nil {
-		fmt.Println(".gitignore could not copy.")
+		fmt.Println("Could not file copy.")
 		return false
 	}
 	return true
