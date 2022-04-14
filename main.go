@@ -33,6 +33,11 @@ func main() {
 		fmt.Println("Failed to copy ignore file")
 		return
 	}
+
+	if !copyReadmefile() {
+		fmt.Println("Failed to copy readme file")
+		return
+	}
 	fmt.Println("Repository created.")
 }
 
@@ -42,6 +47,15 @@ func copyIgnorefile(lang string) bool {
 	filePath := fmt.Sprintf("%s/ignores/%s/.gitignore", exeDirPath, lang)
 
 	return copyFile(".gitignore", filePath)
+}
+
+func copyReadmefile() bool {
+	exePath, _ := os.Executable()
+	exeDirPath := filepath.Dir(exePath)
+	filePath := fmt.Sprintf("%s/readme/Readme.md", exeDirPath)
+
+	return copyFile("Readme.md", filePath)
+
 }
 
 func copyFile(dstFilePath string, srcFilePath string) bool {
